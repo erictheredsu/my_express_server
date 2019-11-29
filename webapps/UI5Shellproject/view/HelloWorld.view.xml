@@ -1,0 +1,19 @@
+<mvc:View controllerName="UI5Shellproject.controller.HelloWorld" height="100%" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.commons.layout" xmlns:commons="sap.ui.commons">
+	<IconTabBar id="iconTabBar" class="sapUiNoContentPadding">
+		<items>
+			<IconTabFilter key="Properties" text="Properties">
+				<commons:SearchField id="Search1" placeholder = "search for properties" width="100%">
+				</commons:SearchField>
+				<layout:MatrixLayout id="matrix1" width="100%">
+				</layout:MatrixLayout>
+			</IconTabFilter>
+			<IconTabFilter key="Events" text="Events" placeholder = "search for events" width="100%">
+				<commons:SearchField id="Search2">
+				</commons:SearchField>
+				<layout:MatrixLayout id="matrix2" width="100%">
+				</layout:MatrixLayout>
+			</IconTabFilter>
+		</items>
+	</IconTabBar>
+</mvc:View>

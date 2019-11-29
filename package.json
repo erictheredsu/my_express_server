@@ -1,0 +1,16 @@
+{
+  "name": "sl-client",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "*",
+    "cors": "*",
+    "request": "*",
+    "lodash": "*",
+    "fs": "*",
+    "opn": "*"
+  },
+  "scripts": {},
+  "eslintConfig": {},
+  "browserslist": []
+}

@@ -1,0 +1,162 @@
+<mvc:View height="100%"
+	width="100%" 
+	controllerName="UI5Shellproject.controller.databinding"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	xmlns:commons="sap.ui.commons"
+	xmlns:layout="sap.ui.commons.layout"
+	xmlns:ide="sap.watt.ideplatform.plugin.imageviewer.view" 
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:semantic="sap.m.semantic"
+	xmlns:mvc="sap.ui.core.mvc">
+	<semantic:SemanticPage title="Data bingding Page">
+	<Panel expandable="true" expanded="true" headerText="Hello" >
+		<Button text="Press Me!" press="OnClick"/>
+		<Text id="greeting1" text="{/greeting/Text}"/>
+	</Panel>
+	<Panel expandable="true" expanded="false" headerText="aggregation binding" >
+		<List id="companyList" items="{/companies}">
+			<items>
+				<StandardListItem
+					title="{name}"
+					description="{city}"
+				/>
+			 </items>
+		</List>
+		<layout:VerticalLayout id="vLayout"
+			binding="{/companies}"
+			width="100%">
+			<Text id="aaa" text="{0/name}" />
+			<Text id="bbb" text="{0/city}" />
+			<Text id="ccc" text="{0/county}" />
+		</layout:VerticalLayout> 
+	</Panel>
+	<Panel expandable="true" expanded="false" headerText="table binding">
+		<Table
+			id="atable"
+			mode="MultiSelect"
+			width="auto"
+			noDataText="warning: no data"
+			items="{/companies}">
+			<headerToolbar>
+				<Toolbar>
+					<Title id="aTableHeader" text="test table"/> 
+						<Text text="{/greeting/Text}"/>
+					<ToolbarSpacer />			
+				</Toolbar>
+			</headerToolbar>
+			<columns>
+				<Column
+					width="12em">
+					<Text text="name" />
+				</Column>
+				<Column
+					minScreenWidth="Tablet"
+					demandPopin="true">
+					<Text text="City" />
+				</Column>
+				<Column
+					minScreenWidth="Tablet"
+					demandPopin="true"
+					hAlign="Center">
+					<Text text="county" />
+				</Column>
+				<Column
+					minScreenWidth="Tablet"
+					demandPopin="true"
+					hAlign="Right">
+					<Text text="state" />
+				</Column>
+				<Column
+					hAlign="Right">
+					<Text text="revenue" />
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem vAlign="Middle" type="Active">
+					<cells>
+						<Text text="{name}" />
+						<Text text="{city}" />
+						<Text text="{county}"/>
+						<Text text="{state}"/>
+						<ObjectNumber
+						number="{revenue}"
+						unit="{CurrencyCode}" />
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</Panel>
+	<semantic:content>
+		<Panel expandable="true" expanded="true" headerText="odata v4 binding">
+			<Table
+				id="odatatable"
+				width="auto"
+				noDataText="warning: no data"
+				growing="true"
+				growingScrollToLoad="true"
+				items="{
+					path : '/Order_Details',
+					sorter: {
+						path: 'ProductID',
+						descending: false
+						}
+					}"
+				 updateFinished="onUpdateFinished">
+			<headerToolbar>
+				<Toolbar>
+					<Title id="tableHeader" text="worklistTableTitle"/>
+					<ToolbarSpacer />
+					<SearchField
+						id="searchField"
+						tooltip="worklistSearchTooltip"
+						search="onSearch"
+						width="auto">
+					</SearchField>
+				</Toolbar>
+			</headerToolbar>
+			<columns>
+				<Column
+					width="12em">
+					<Text text="name" />
+				</Column>
+				<Column
+					minScreenWidth="Tablet"
+					demandPopin="true">
+					<Text text="City" />
+				</Column>
+				<Column
+					minScreenWidth="Tablet"
+					demandPopin="true"
+					hAlign="Center">
+					<Text text="county" />
+				</Column>
+				<Column
+					minScreenWidth="Tablet"
+					demandPopin="true"
+					hAlign="Right">
+					<Text text="state" />
+				</Column>
+				<Column
+					hAlign="Right">
+					<Text text="revenue" />
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem vAlign="Middle" type="Navigation">
+					<cells>
+						<Text text="{OrderID}" />
+						<Text text="{ProductID}" />
+						<Text text="{UnitPrice}"/>
+						<Text text="{Quantity}"/>
+						<ObjectNumber
+						number="{Quantity}"
+						unit="{UnitPrice}" />
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		</Panel>
+	</semantic:content>
+	</semantic:SemanticPage>
+</mvc:View>

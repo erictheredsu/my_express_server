@@ -1,0 +1,151 @@
+{
+	"_version": "1.7.0",
+	"sap.app": {
+		"id": "UI5Shellproject",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.40.12"
+		},
+		"dataSources": {
+			"mainService": {
+				"uri": "/Northwind.svc/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "4.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
+		}
+	},
+
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_belize"
+
+		]
+	},
+
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "UI5Shellproject.view.App",
+			"type": "XML",
+			"id":"app"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "UI5Shellproject.i18n.i18n"
+				}
+			},
+			"": {
+				"dataSource": "mainService",
+				"settings": {
+					"operationMode": "Server",
+					"synchronizationMode": "None"
+				}
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "UI5Shellproject.view",
+				"controlAggregation": "pages",
+				"controlId": "app"
+			},
+			"routes": [
+			{
+				"pattern": "databinding",
+				"name":"databinding",
+				"target": ["TargetView1"]
+			},{
+				"pattern": "HelloWorld",
+				"name":"HelloWorld",
+				"target":["TargetView2"]
+			},
+			{
+				"pattern": "ThinClientViewer",
+				"name":"ThinClientViewer",
+				"target":["TargetView3"]
+			},
+			{
+				"pattern": "SplitTest",
+				"name":"SplitTest",
+				"target":["TargetView4"]
+			}
+			],
+			"targets": {
+			"TargetView0": {
+					"viewLevel": 1,
+					"viewId": "App",
+					"title": "Welcome Page",
+					"viewName": "App"
+				},
+			"TargetView1": {
+					"viewLevel": 2,
+					"viewId": "databinding",
+					"title": "Data Binding Tests",
+					"viewName": "databinding"
+				},
+				"TargetView2": {
+					"viewLevel": 3,
+					"viewId": "HelloWorld",
+					"title": "My HelloWorld",
+					"viewName": "HelloWorld"
+				},
+				"TargetView3": {
+					"viewLevel": 4,
+					"viewId": "ThinClientViewer",
+					"title": "ThinClientViewer",
+					"viewName": "ThinClientViewer"
+				},
+				"TargetView4": {
+					"viewLevel": 5,
+					"viewId": "SplitTest",
+					"title": "SplitTest Viewer",
+					"viewName": "SplitTest"
+				}
+			}
+		}
+	}
+}
