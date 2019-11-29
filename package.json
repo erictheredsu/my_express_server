@@ -1,5 +1,6 @@
 {
-  "name": "sl-client",
+  "name": "myExpress",
+  "description": "my express server",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -12,5 +13,13 @@
   },
   "scripts": {},
   "eslintConfig": {},
-  "browserslist": []
+  "browserslist": [],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/xxxx/xxx.git"
+  },
+  "license": "MIT",
+  "scripts": {
+  },
+  "version": "0.0.1"
 }
