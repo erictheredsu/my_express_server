@@ -11,4 +11,4 @@ echo "copy your web contents to ./webapps folder"
 npm install --save
 
 #run express
-node http_proxy_server.js
+node http_server_promise.js

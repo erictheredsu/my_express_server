@@ -21,23 +21,14 @@ app.use(cors({origin: '*'}));
 app.use(express.static('webapps', {'dotfiles':'allow'}));
 console.log("listen: " + app_root);
 
-
-
 //create or truncate index.html
 const fileHead='<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<title>Project List</title>\r\n<head/>\r\n<body>\r\n<h2>Project List</h2>\r\n';
 const fileEnd="</body>\r\n</html>\r\n";
-// fs.writeFile(validPath, fileHead, (err, fd) =>{   
-//     if(err){
-//         console.log(err);
-//     }
-// });
-fsPromise.writeFile(validPath, fileHead)
-    .catch(err => {console.log(err);})
 
+//Get all sub folders from app_folder and create an index.html
+//and open it automatically
+GenerateIndexFile(app_folder);
 
-getSubFolderInfo(app_folder);
-//open root index automatically
-opn(root_index_file);
 
 //redirects URL
 // app.use('/Northwind.svc/', function(req, res) {
@@ -52,29 +43,38 @@ app.listen(process.env.PORT || 7777);
 
 //------------------------------------------function-------------------------------------------------------
 
-function getSubFolderInfo(filePath) {
-    validPath  = path.resolve(filePath);
-    fsPromise.readdir(validPath)
-    .then( files => {
-        // Promise.all( files =>{
-        //     files.forEach(outputOneDir(fileName));
-        // })
-        files.forEach(function(dirName){
-            var dirPath = path.join(validPath, dirName);
-            fsPromise.stat(dirPath)
-                .then( stats => { 
-                    if(stats.isDirectory()){
-                        //console.log(getURL(dirName));
-                        fsPromise.appendFile(root_index_file, getHtmlElem(dirName))
-                        .catch(err => {console.log(err);});
-                        return dirName;
-                    }
+function GenerateIndexFile(filePath) {
+    //append start part of index.html
+    fsPromise.writeFile(validPath, fileHead)
+    .then(()=>{
+        console.log(fileHead);
+        //append webapps folder content link
+        validPath  = path.resolve(filePath);
+        fsPromise.readdir(validPath)
+            .then( files => {
+            files.forEach(function(dirName){
+                var dirPath = path.join(validPath, dirName);
+                let a = fs.statSync(dirPath);
+                if(a.isDirectory()){
+                    fsPromise.appendFile(root_index_file, getHtmlElem(dirName))
+                        .then(()=>{
+                            console.log(dirPath);
+                            return dirPath;
+                        })
+                }
+            });
+        })
+        .then(()=>{
+            //append end part of index.html
+            fsPromise.appendFile(root_index_file, fileEnd)
+                .then(()=>{
+                    console.log(fileEnd);
+                    //open root index automatically
+                    opn(root_index_file);
+                    console.log("open the website :" + root_index_file);
                 })
-                .catch(err => {console.log(err);});
-        });
-    }).then(()=>{
-        fsPromise.appendFile(root_index_file, fileEnd)
-        .catch(err => {console.log(err);});
+                
+        })
     })
     .catch(err => {console.log(err);})
 }
@@ -85,23 +85,4 @@ function getURL(name) {
 
 function getHtmlElem(name){
     return "<h3><a href=\"" + getURL(name) + "\">" +  name + "</a></h3>" + '\r\n';
-}
-
-function outputOneDir(validPath, dirName){
-    return new Promise((resolve, reject)=>{
-        var dirPath = path.join(validPath, dirName);
-        fsPromise.stat(dirPath)
-            .then( stats => { 
-                if(stats.isDirectory()){
-                    //console.log(getURL(dirName));
-                    fsPromise.appendFile(root_index_file, getHtmlElem(dirName))
-                    .catch(err => {console.log(err);});
-                    resolve();
-                }
-            })
-            .catch(err => {
-                    console.log(err);
-                    reject();
-                });
-    })
 }
