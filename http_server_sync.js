@@ -8,8 +8,9 @@ const path = require('path');
 const opn = require('opn');
 const os = require('os');
 
+const ip = getIPAddress();
 const path_seperater = (os.platform === 'win32')? "\\": '/';
-const app_root = "http://localhost:7777/";
+const app_root = "http://" + ip + ":7777/";
 const app_folder = "webapps";
 const root_index_file = app_folder + path_seperater + "index.html";
 var validPath  = path.resolve(root_index_file);
@@ -29,7 +30,7 @@ const fileEnd="</body>\r\n</html>\r\n";
 GenerateIndexFile(app_folder);
 
 //open root index automatically
-opn(root_index_file);
+opn(app_root);
 
 //redirects URL
 // app.use('/Northwind.svc/', function(req, res) {
@@ -62,9 +63,43 @@ function GenerateIndexFile(filePath) {
 }
 
 function getURL(name) {
-    return app_root + name + '/index.html';
+    return '../' + name + '/index.html';
 }
 
 function getHtmlElem(name){
     return "<h3><a href=\"" + getURL(name) + "\">" +  name + "</a></h3>" + '\r\n';
 }
+
+function getIPAddress(){
+    let ifaces = os.networkInterfaces();
+    let ipAddress = '';
+
+    Object.keys(ifaces).forEach(function (ifname) {
+
+        if(ifname !== 'Ethernet'){
+            return ;
+        }
+
+        var alias = 0;
+      
+        ifaces[ifname].forEach(function (iface) {
+          if ('IPv4' !== iface.family || iface.internal !== false) {
+            // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+            return;
+          }
+      
+          if (alias >= 1) {
+            // this single interface has multiple ipv4 addresses
+            console.log(ifname + ':' + alias, iface.address);
+          } else {
+            // this interface has only one ipv4 adress
+            console.log(ifname, iface.address);
+          }
+          ipAddress = iface.address;
+          ++alias;
+        });
+      });
+
+      return ipAddress;
+}
+
