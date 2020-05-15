@@ -8,9 +8,10 @@ const path = require('path');
 const opn = require('opn');
 const os = require('os');
 
+
 const ip = getIPAddress();
 const path_seperater = (os.platform === 'win32')? "\\": '/';
-const app_root = "http://" + ip + ":7777/";
+const app_root = "http://" + ip + "/";
 const app_folder = "webapps";
 const root_index_file = app_folder + path_seperater + "index.html";
 var validPath  = path.resolve(root_index_file);
@@ -40,7 +41,7 @@ opn(app_root);
 // console.log("proxy server : http://services.odata.org/V4/Northwind/Northwind.svc/");
 
 //End: listen Port
-app.listen(process.env.PORT || 7777);
+app.listen(process.env.PORT || 80);
 
 
 //------------------------------------------function-------------------------------------------------------
@@ -56,10 +57,14 @@ function GenerateIndexFile(filePath) {
         if(stat.isDirectory()){
             fs.appendFileSync(root_index_file, getHtmlElem(dirName));
         }
-        console.log(dirPath);
+        console.log(getAbsoluteURL(dirName));
     });
     fs.appendFileSync(root_index_file, fileEnd);
     console.log(fileEnd);
+}
+
+function getAbsoluteURL(name){
+    return app_root + name + '/index.html';
 }
 
 function getURL(name) {
