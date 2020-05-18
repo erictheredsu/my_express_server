@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Fengmaybe_Robot</title>
     <script src="myAjax.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <style>
     *{
@@ -103,6 +104,9 @@
     * */
     function chat() {
         var sayContent = input.value;
+        if(sayContent===""){
+            return;
+        }
         var paras = "key=3333477114764616b62e3f1bc416a2c0&userid=13917660006&info="+sayContent;
         ajax.post("http://www.tuling123.com/openapi/api",paras,function (content,xhr) {
             //克隆mine的节点，深度克隆

@@ -78,11 +78,16 @@ function getHtmlElem(name){
 function getIPAddress(){
     let ifaces = os.networkInterfaces();
     let ipAddress = '';
+    let os_type = os.type();
 
-    Object.keys(ifaces).forEach(function (ifname) {
+    Object.keys(ifaces).forEach(function (ifname, platform) {
 
-        if(ifname !== 'Ethernet'){
+        if(os_type ==="Linux" && ifname !== 'Ethernet'){
             return ;
+        }
+        else if(os_type === "Darwin"){
+            ipAddress = "localhost";
+            return;
         }
 
         var alias = 0;
