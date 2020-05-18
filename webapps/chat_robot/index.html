@@ -87,8 +87,8 @@
  
     </div>
     </div>
-    <input type="text">
-    <button class="send_btn" onkeydown="keydown">Send</button>
+    <input type="text" onkeydown="keydown">
+    <button class="send_btn">Send</button>
     </div>
 </div>
  
@@ -157,8 +157,10 @@
 
     send.onclick = chat;
     
-    function keydown(ev) {
-        if(ev.keyCode == 13){
+    document.addEventListener("keydown",keydown);
+
+    function keydown(event) {
+        if(event.keyCode == 13){
             chat();
         }
     }
