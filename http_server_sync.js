@@ -7,6 +7,8 @@ const fs = require('fs');
 const path = require('path');
 const opn = require('opn');
 const os = require('os');
+const bodyParser = require('body-parser');
+const multipart= require("connect-multiparty")
 
 
 const ip = getIPAddress();
@@ -33,9 +35,29 @@ GenerateIndexFile(app_folder);
 //open root index automatically
 opn(app_root);
 
-app.post('/login.svc', function(req,res){
-  console.log("/login post request");
-  res.send("login ok");
+//handle request
+app.get('/helloworld.svc', function(req, res){
+  res.send("hello world!");
+})
+
+//post www-form-urlencoded
+app.use(bodyParser.urlencoded({    
+  extended: true
+}));
+app.post('/urlencoded.svc', function(req,res){
+  res.send(req.body);
+});
+
+//post form-data
+let multipart_app = multipart();
+app.post('/form-data.svc', multipart_app, function(req, res){
+  res.send(req.body);
+});
+
+//post application/json  similiar with text/plain of B1 SL
+app.use(bodyParser.json({limit:'1mb'}));
+app.post('/application-json.svc', function(req, res){
+  res.send(req.body);
 })
 
 //redirects URL

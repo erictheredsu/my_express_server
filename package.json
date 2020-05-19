@@ -9,7 +9,8 @@
     "request": "*",
     "lodash": "*",
     "fs": "*",
-    "opn": "*"
+    "opn": "*",
+    "connect-multiparty": "*"
   },
   "scripts": {},
   "eslintConfig": {},
