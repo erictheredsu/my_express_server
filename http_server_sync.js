@@ -82,12 +82,16 @@ function getIPAddress(){
 
     Object.keys(ifaces).forEach(function (ifname, platform) {
 
-        if(os_type ==="Linux" && ifname !== 'Ethernet'){
+        if(os_type ==="Windows_NT" && ifname !== 'Ethernet'){
             return ;
         }
         else if(os_type === "Darwin"){
             ipAddress = "localhost";
             return;
+        }
+        else if(os_type ==="Linux")
+        {
+          
         }
 
         var alias = 0;
