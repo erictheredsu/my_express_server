@@ -33,6 +33,11 @@ GenerateIndexFile(app_folder);
 //open root index automatically
 opn(app_root);
 
+app.post('/login.svc', function(req,res){
+  console.log("/login post request");
+  res.send("login ok");
+})
+
 //redirects URL
 // app.use('/Northwind.svc/', function(req, res) {
 //     var url = 'http://services.odata.org/V4/Northwind/Northwind.svc/' + req.url;
