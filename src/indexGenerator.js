@@ -21,7 +21,7 @@ module.exports = {
         return app_root;
     },
 
-    GenerateIndexFile : ()=>{
+    generateIndexFile : ()=>{
         fs.writeFileSync(validPath, fileHead);
         console.log(fileHead);
         validPath  = path.resolve(app_folder);

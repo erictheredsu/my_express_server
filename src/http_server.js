@@ -1,51 +1,25 @@
 #!/usr/local/bin/node
 
 const express = require('express')
-const request = require('request');
+// const request = require('request');
 const cors = require('cors');
 const opn = require('opn');
-const bodyParser = require('body-parser');
-const multipart= require("connect-multiparty")
 const indexFileGenerator = require('./indexGenerator')
-
-
+const postDemo = require('./subapp/post_demo')
 
 //create express server
 var app = express();
 app.use(cors({origin: '*'}));
 app.use(express.static('webapps', {'dotfiles':'allow'}));
-console.log("listen: " + indexFileGenerator.getAppRoot());
+
+//mount my sub app, url is http://ip:port/demo/*
+app.use('/demo',postDemo.getSubApp());
 
 //generate entry index.html
-indexFileGenerator.GenerateIndexFile();
+indexFileGenerator.generateIndexFile();
 
 //open root index automatically
 opn(indexFileGenerator.getAppRoot());
-
-//handle request
-app.get('/helloworld.svc', function(req, res){
-  res.send("hello world!");
-})
-
-//post www-form-urlencoded
-app.use(bodyParser.urlencoded({    
-  extended: true
-}));
-app.post('/urlencoded.svc', function(req,res){
-  res.send(req.body);
-});
-
-//post form-data
-let multipart_app = multipart();
-app.post('/form-data.svc', multipart_app, function(req, res){
-  res.send(req.body);
-});
-
-//post application/json  similiar with text/plain of B1 SL
-app.use(bodyParser.json({limit:'1mb'}));
-app.post('/application-json.svc', function(req, res){
-  res.send(req.body);
-})
 
 //redirects URL
 // app.use('/Northwind.svc/', function(req, res) {
@@ -55,8 +29,8 @@ app.post('/application-json.svc', function(req, res){
 // console.log("proxy server : http://services.odata.org/V4/Northwind/Northwind.svc/");
 
 //End: listen Port
+console.log("listen: " + indexFileGenerator.getAppRoot());
 app.listen(process.env.PORT || 80);
-
 
 //------------------------------------------function-------------------------------------------------------
 

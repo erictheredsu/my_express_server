@@ -1,8 +1,11 @@
-# nodeTest
-webapps folder is the root folder for JS project
+# my Express Server demo
+
+webapps folder is the root folder for static resource and frontend project
+
 each project should has a index.html in their root folder, 
 otherwise it can't be open by root index.html
 
-path: D:\workspace\playground\nodejs\webapps
-
-TODO: enable the function in Linux
+install:
+1, go to the project folder
+2, npm install
+3, run.bat
