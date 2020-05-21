@@ -1,3 +1,9 @@
+//sql server connection of tedious
+//see https://tediousjs.github.io/tedious/getting-started.html  and 
+//https://github.com/tediousjs/tedious/tree/master/examples for more info
+
+//TODO: https://tediousjs.github.io/node-mssql/#asyncawait
+
 const Connection = require('tedious').Connection
 const Request = require('tedious').Request
 
