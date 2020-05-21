@@ -54,24 +54,13 @@ function getHtmlElem(name){
 
 function getIPAddress(){
     let ifaces = os.networkInterfaces();
-    let ipAddress = '';
+    let ipAddress = [];
+    let index = 0;
     let os_type = os.type();
 
     Object.keys(ifaces).forEach(function (ifname, platform) {
 
-        if(os_type ==="Windows_NT" && ifname !== 'Ethernet'){
-            return ;
-        }
-        else if(os_type === "Darwin"){
-            ipAddress = "localhost";
-            return;
-        }
-        else if(os_type ==="Linux")
-        {
-          
-        }
-
-        var alias = 0;
+        let alias = 0;
       
         ifaces[ifname].forEach(function (iface) {
           if ('IPv4' !== iface.family || iface.internal !== false) {
@@ -86,10 +75,17 @@ function getIPAddress(){
             // this interface has only one ipv4 adress
             console.log(ifname, iface.address);
           }
-          ipAddress = iface.address;
+          ipAddress.push(iface.address);
           ++alias;
         });
       });
 
-      return ipAddress;
+      ipAddress.forEach((item, i)=>{
+        let bit = item.split('.');
+        if(bit[0] == "10" || (bit[0] == "192"&& bit[1]=="168")){
+            index = i;
+        } 
+      })
+      
+      return ipAddress[index];
 }
