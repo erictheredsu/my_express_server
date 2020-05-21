@@ -10,14 +10,15 @@
     "lodash": "*",
     "fs": "*",
     "opn": "*",
-    "connect-multiparty": "*"
+    "connect-multiparty": "*",
+    "tedious": "*"
   },
   "scripts": {},
   "eslintConfig": {},
   "browserslist": [],
   "repository": {
     "type": "git",
-    "url": "git://github.com/xxxx/xxx.git"
+    "url": "https://github.com/erictheredsu/my_express_server.git"
   },
   "license": "MIT"
 }
