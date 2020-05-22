@@ -22,39 +22,79 @@ var config = {
 };
 
 let connection = null;
-
-function executeStatement () {
-  request = new Request("select top 5 ItemCode, ItemName from OITM", function (err, rowCount) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log(rowCount + ' rows')
-    }
-    connection.close()
-  })
-
-  request.on('row', function (columns) {
-    columns.forEach(function (column) {
-      if (column.value === null) {
-        console.log('NULL')
-      } else {
-        console.log(column.value)
-      }
-    })
-  })
-
-  connection.execSql(request)
-}
+let params = [];
 
 module.exports = {
-    init : ()=>{
-      connection = new Connection(config);
-      connection.on('connect', function (err) {
-        if (err) {
-          console.log(err)
-        } else {
-          executeStatement()
+    initConnection : ()=>{
+      return new Promise((resolve, reject) =>{
+        if(connection !== null){
+          return resolve();
         }
+
+        connection = new Connection(config);
+        connection.on('connect', function(err){
+            if(err){
+              return reject(err);
+            }
+            else{
+              return resolve();
+            }
+        })
       })
+    },
+
+    setParameters : (Parameters) =>{
+      params = Parameters;
+    },
+
+    execsql : (sqlQuery)=>{
+      return new Promise((resolve, reject) =>{
+        let dataset = {
+          datatable : [],
+          rowCount : 0,
+          metadata : [],
+          errCode : 0
+        }
+
+        let request = new Request(sqlQuery, (err, rowCount)=>{
+          if(err){
+            return reject(err);
+          }
+          else{
+            dataset['rowCount'] = rowCount;
+          }
+        })
+
+        if(params !== null){
+          params.forEach(element => {
+            request.addParameter(element.name, element.type, element.value);
+          });
+        }
+      
+        request.on('row', (columns)=>{
+          dataset.datatable.push(columns);
+        });
+
+        request.on('columnMetadata', (columns)=>{
+          dataset['metadata'] = columns;
+        });
+
+        request.on('requestCompleted', () => {
+            return resolve(dataset);
+        });
+
+        request.on('error', (err)=>{
+          dataset['errCode'] = err;
+        });
+
+        connection.execSql(request);
+
+      })
+    },
+
+    closeConnection :()=>{
+      if(connection !== null){
+        connection.close();
+      }
     }
-}
+};
