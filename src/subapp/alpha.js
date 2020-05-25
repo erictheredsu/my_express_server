@@ -23,10 +23,10 @@ app.post('/login.svc', function(req,res){
             dbConnectSQL.setParameters([{'name':'code', 'type':TYPES.VarChar,'value': userInfo['uname'] }])
             dbConnectSQL.execsql(sqlQuery)
                 .then( (dataset)=>{
-                    console.dir(dataset);
+                    //console.dir(dataset);
                     if(dataset.rowCount ==1 &&  dataset.datatable[0][1].value == userInfo['psw']){
-                        res.send('Welcome, dear ' + dataset.datatable[0][2].value);
-                        //res.redirect('/success.html');
+                        //res.send('Welcome, dear ' + dataset.datatable[0][2].value);
+                        res.redirect('/alpha/main.html');
                     }
                     else{
                         res.send("your user name is unknown or your password is incorrect!");
@@ -34,11 +34,18 @@ app.post('/login.svc', function(req,res){
                 })
         })
         .catch(err => {console.log(err);})
-
-
- 
  });
 
+app.get('/userlist.svc', function(req, res){
+    dbConnectSQL.initConnection().then(()=>{
+        let sqlQuery = 'select USERID, USER_CODE,U_NAME, PASSWORD2 from ousr';
+        dbConnectSQL.execsql(sqlQuery)
+            .then((dataset)=>{
+                res.send(dataset);
+            })
+    })
+});
+ 
  module.exports = {
     getSubApp : ()=>{
         return app;
