@@ -55,8 +55,12 @@ function getHtmlElem(name){
 function getIPAddress(){
     let ifaces = os.networkInterfaces();
     let ipAddress = [];
-    let index = 0;
+    let index = -1;
     let os_type = os.type();
+
+    if(os_type === "Darwin"){
+      return "127.0.0.1";
+    }
 
     Object.keys(ifaces).forEach(function (ifname, platform) {
 
@@ -82,10 +86,13 @@ function getIPAddress(){
 
       ipAddress.forEach((item, i)=>{
         let bit = item.split('.');
-        if(bit[0] == "10" || (bit[0] == "192"&& bit[1]=="168")){
+        if((bit[0] == "10" && (bit[1] == "58" || bit[1] == "59"))|| (bit[0] == "192"&& bit[1]=="168")){
             index = i;
         } 
       })
       
+      if(index === -1){
+        return "127.0.0.1";
+      }
       return ipAddress[index];
 }

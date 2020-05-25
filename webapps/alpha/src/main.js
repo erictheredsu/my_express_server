@@ -1,5 +1,14 @@
+function loadlistview(type){
+    
+
+    window.location.href="/alpha/listview.html" + "?type=" + type;
+}
+
 function loaddata(){
-    fetch("/alpha/userlist.svc").then((res)=>{
+    let params = new URLSearchParams(window.location.search);
+    const type = params.get("type");
+    let url = "/alpha" + "/" + type + "list.svc";
+    fetch(url).then((res)=>{
         if(res.status !==200){
             return {"error":"status 200"};
         }

@@ -45,6 +45,16 @@ app.get('/userlist.svc', function(req, res){
             })
     })
 });
+
+app.get('/itemlist.svc', function(req, res){
+    dbConnectSQL.initConnection().then(()=>{
+        let sqlQuery = 'select ItemCode, FrgnName, ItmsGrpCod from OITM';
+        dbConnectSQL.execsql(sqlQuery)
+            .then((dataset)=>{
+                res.send(dataset);
+            })
+    })
+});
  
  module.exports = {
     getSubApp : ()=>{
