@@ -11,7 +11,7 @@ const fileEnd="</body>\r\n</html>\r\n";
 const ip = getIPAddress();
 const app_folder = "webapps";
 const path_seperater = (os.platform === 'win32')? "\\": '/';
-const app_root = "http://" + ip + "/";
+const app_root = "https://" + ip + "/";
 const root_index_file = app_folder + path_seperater + "index.html";
 var validPath  = path.resolve(root_index_file);
 
@@ -86,7 +86,7 @@ function getIPAddress(){
 
       ipAddress.forEach((item, i)=>{
         let bit = item.split('.');
-        if((bit[0] == "10" && (bit[1] == "58" || bit[1] == "59"))|| (bit[0] == "192"&& bit[1]=="168")){
+        if((bit[0] == "10" && (bit[1] == "58" || bit[1] == "59"))|| (bit[0] == "192"&& bit[1]=="168"&& (bit[2]=="0" || bit[2]=="1"))){
             index = i;
         } 
       })
