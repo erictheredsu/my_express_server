@@ -4,13 +4,11 @@ sap.ui.define([
 ], function (Button, MessageToast) {
 	"use strict";
 
-	// new Button({
-	// 	text: "Ready...",
-	// 	press: function () {
-	// 		MessageToast.show("Hello World!");
-	// 	}
-	// }).placeAt("content");
-
-	alert("UI5 ready");
+	new Button({
+		text: "Ready...",
+		press: function () {
+			MessageToast.show("Hello World!");
+		}
+	}).placeAt("content");
 
 });
